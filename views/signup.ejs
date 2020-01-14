@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+<title>Registration Form</title>
+ <%- include ('../scripts/common_scripts.ejs') %>
+<style type="text/css">
+	body{
+		color: #fff;
+		background: #63738a;
+		font-family: 'Roboto', sans-serif;
+	}
+    .form-control{
+		height: 40px;
+		box-shadow: none;
+		color: #969fa4;
+	}
+	.form-control:focus{
+		border-color: #5cb85c;
+	}
+    .form-control, .btn{        
+        border-radius: 3px;
+    }
+	.signup-form{
+		width: 400px;
+		margin: 0 auto;
+		padding: 30px 0;
+	}
+	.signup-form h2{
+		color: #636363;
+        margin: 0 0 15px;
+		position: relative;
+		text-align: center;
+    }
+	.signup-form h2:before, .signup-form h2:after{
+		content: "";
+		height: 2px;
+		width: 30%;
+		background: #d4d4d4;
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+	}	
+	.signup-form h2:before{
+		left: 0;
+	}
+	.signup-form h2:after{
+		right: 0;
+	}
+    .signup-form .hint-text{
+		color: #999;
+		margin-bottom: 30px;
+		text-align: center;
+	}
+    .signup-form form{
+		color: #999;
+		border-radius: 3px;
+    	margin-bottom: 15px;
+        background: #f2f3f7;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+	.signup-form .form-group{
+		margin-bottom: 20px;
+	}
+	.signup-form input[type="checkbox"]{
+		margin-top: 3px;
+	}
+	.signup-form .btn{        
+        font-size: 16px;
+        font-weight: bold;		
+		min-width: 140px;
+        outline: none !important;
+    }
+	.signup-form .row div:first-child{
+		padding-right: 10px;
+        width: 50%;
+	}
+	.signup-form .row div:last-child{
+		padding-left: 10px;
+        width: 50%;
+	}    	
+    .signup-form a{
+		color: #fff;
+		text-decoration: underline;
+	}
+    .signup-form a:hover{
+		text-decoration: none;
+	}
+	.signup-form form a{
+		color: #5cb85c;
+		text-decoration: none;
+	}	
+	.signup-form form a:hover{
+		text-decoration: underline;
+	}  
+
+	label {
+		cursor: pointer;
+		/* Style as you please, it will become the visible UI component. */
+	}
+
+	#upload-icon {
+		opacity: 0;
+		position: absolute;
+		z-index: -1;
+	}
+</style>
+<script>
+	$(document).ready(function() {
+
+		var selectedIcon = ''
+		// $("#upload-icon").click(function(){
+		// 	axios.post('/iconUpload').then(response => { 
+		// 		console.log("users count")
+		// 	}).catch(error => {      
+		// 		isValid = false          
+		// 	}); 
+		// })
+		// $('input[type="file"]').change(function(e){
+		// 	var fileName = e.target.files[0].name;
+		// 	selectedIcon = e.target.files[0];
+
+		// 	// console.log(e.target.files)
+		// 	 $('#iconupload').val(fileName)
+		// 	// axios.post('/iconUpload' ,{
+		// 	// 	file : formData
+		// 	// }).then(response => { 
+		// 	// 	console.log("users count")
+		// 	// }).catch(error => {      
+		// 	// 	isValid = false          
+		// 	// }); 
+        // });
+
+		// $('#upload-icon').change(function() {
+        // 	var filename = $('#image_file').val();
+        // 	$('#select_file').html(filename);
+		// });
+		
+		$('#btnRegister').click(function(){
+
+			let iconData = new FormData();
+			console.log("iconData" , document.getElementById('myIcon'))
+			console.log("value" , $('input[type=file]'))
+
+			// firstname : $('#first_name').val(),
+			// 	lastname : $('#last_name').val(),
+			// 	email : $('#email').val(),
+			// 	password : $('#password').val(),
+			// 	confirm_password : $('#confirm_password').val(),
+
+			iconData.append('firstname', $('#first_name').val()); 
+			iconData.append('lastname', $('#last_name').val()); 
+			iconData.append('email', $('#email').val()); 
+			iconData.append('password', $('#password').val()); 
+			iconData.append('confirm_password', $('#confirm_password').val()); 
+			//iconData.append('image', $('input[type=file]')[0].files[0]); 
+			console.log("iconData" , iconData)
+			
+			// var myform = document.getElementById("registrationform");
+			// let formSerialize = $('registrationform').serialize();
+
+			// var fd = new FormData(myform);
+	
+			axios.post('/saveSignup' ,{
+				firstname : $('#first_name').val(),
+				lastname : $('#last_name').val(),
+				email : $('#email').val(),
+				password : $('#password').val(),
+				confirm_password : $('#confirm_password').val()
+			}).then(response => {
+				window.location.href = '/'
+			}).catch(error => {      
+				isValid = false          
+			}); 
+		})
+		
+	})
+	
+</script>
+</head>
+<body>
+<div class="signup-form">
+    <form name ="registrationform" id="registrationform" enctype="multipart/form-data">
+		<h2>Register</h2>
+        <div class="form-group">
+			<div class="row">
+				<div class="col-xs-6"><input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required="required"></div>
+				<div class="col-xs-6"><input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required="required"></div>
+			</div>        	
+        </div>
+        <div class="form-group">
+			<input type="email" class="form-control" name="email" id="email" placeholder="Email" 
+			required="required">
+        </div>
+		<div class="form-group">
+			<input type="password" class="form-control" name="password" id="password" 
+			placeholder="Password" required="required">
+        </div>
+		<div class="form-group">
+			<input type="password" class="form-control" name="confirm_password" 
+			id="confirm_password" placeholder="Confirm Password" required="required">
+		</div>      
+		<div class="form-group">
+		 Icon :	<input name="myImage" type="file" class="form-control" id="myIcon">
+			<!-- <input type="text" style="width: 50%;float: left;" 
+			class="form-control" name="iconupload" id="iconupload" disabled placeholder="Icon" required="required">
+			<div class="btn btn-success btn-lg btn-block" style="width: 50%;float:right">
+				<label for="upload-icon">Upload</label>
+				<input type="file" name="myIcon" id="upload-icon" />
+			</div>	 -->
+			<!-- <div class="file-field input-field">
+				<div class="btn grey">
+				  <span>File</span>
+				  <input name="myImage" type="file">
+				</div>
+				<div class="file-path-wrapper">
+				  <input class="file-path validate" type="text">
+				</div>
+			  </div> -->
+        </div> 
+		<div class="form-group">
+			<button type="button" id="btnRegister" 
+			class="btn btn-success btn-lg btn-block">Register Now</button>
+        </div>
+    </form>
+	<div class="text-center">Already have an account? <a href="/">Sign in</a></div>
+</div>
+</body>
+</html>                            
+
