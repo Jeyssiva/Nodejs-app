@@ -22,13 +22,22 @@ app.use(cookieParser('keyboard cat'));
 app.use(session({
     secret: 'keyboard cat',
 	resave: false,
-	saveUninitialized: true,
+    saveUninitialized: true,
+    key : 'user_session',
 	cookie: { maxAge: 60000 }
   }));
+
+app.use(function(req,res ,next){
+  console.log("req.session.userdetails" , req.session.userdetails)
+  res.locals.userdetails = req.session.userdetails
+  next();
+})
   
 app.use(flash());
 
 app.use('/' , indexRoute)
+
+
 
 Mongoose.connect(config.database.url,{useUnifiedTopology : true , useNewUrlParser : true} , 
     (err,db) =>{
@@ -79,6 +88,6 @@ app.set('view engine','ejs');
 
 
 app.listen(8001 , ()=>{
-    console.log("Server Started")
+    console.log("Server Started http://localhost:8001/" )
 })
 

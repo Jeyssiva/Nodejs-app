@@ -16,4 +16,5 @@ routes.get('/profile' , BaseController.profile)
 
 routes.post('/iconUpload' , BaseController.iconUpload)
 
+routes.get('/logout' , BaseController.logout)
 module.exports = routes

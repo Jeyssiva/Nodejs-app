@@ -77,7 +77,15 @@ exports.checkLogin = (req,res) => {
     if(!errors){
         User.findOne({email : req.body.email , password : req.body.password} , (err,result)=>{
             if(result){
-                res.redirect('/profile')
+              console.log("result" , result)
+              
+               req.session.userdetails =  {
+                firstname : result.firstname,
+                lastname : result.lastname,
+                email : result.email
+               }
+               console.log("req.session.userdetails" , req.session.userdetails)
+               res.redirect('/profile')
             } else {
                 req.flash('error' , "Invalid user")
                 res.redirect('/');
@@ -104,4 +112,9 @@ exports.iconUpload = (req,res)=>{
     //     console.log("iconUpload" ,req.file)
     //     //res.send({msg:"upload"})
     // });
+}
+
+exports.logout = (req, res) => {
+  res.clearCookie('user_session');
+  res.redirect('/');
 }
