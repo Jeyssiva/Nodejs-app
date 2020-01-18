@@ -8,7 +8,7 @@ var userSchema =  Schema({
   lastname: String,
   password: { type: String, required: true },
   email: { type: String, required: true },
-  isacceptedTerms : {type : Boolean}
+  iconpath : {type : String , required : true}
 });
 
 var User = mongoose.model('User', userSchema);
