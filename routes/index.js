@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 
 const storage = multer.diskStorage({
-    destination: './uploads/',
+    destination: './public/uploads/',
     filename: function(req, file, cb){
       cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
@@ -59,8 +59,6 @@ routes.post('/saveSignup' , uploadIcon , BaseController.saveSignup)
 routes.post('/checkLogin' , BaseController.checkLogin)
 
 routes.get('/profile' , BaseController.profile)
-
-routes.post('/iconUpload' , BaseController.iconUpload)
 
 routes.get('/logout' , BaseController.logout)
 module.exports = routes

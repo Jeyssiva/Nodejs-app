@@ -9,19 +9,30 @@ exports.signup = (req,res) => {
 }
 
 exports.saveSignup = (req,res) => {
-    var newUser = User({
-        firstname : req.body.first_name,
-        lastname : req.body.last_name,
-        email : req.body.email,
-        password : req.body.password,
-        iconpath : req.file.path
-    })
 
-    newUser.save(err => {
-        if(err) {
-          res.json({success : false , msg :err.msg})
+    User.findOne({email : req.body.email} , (err,result)=>{
+        if(result){  
+            res.json({success : false , msg :"User aleady exists"})
+        } else if (req.body.password != req.body.confirmpassword){
+            res.json({success : false , msg :"Password and Confirm Password should be match"})
         } else {
-          res.json({success : true , msg :"null"})
+            var newUser = User({
+                firstname : req.body.first_name,
+                lastname : req.body.last_name,
+                email : req.body.email,
+                password : req.body.password,
+                iconpath : req.file.filename
+            })
+
+            console.log("req.file" , req.file)
+
+            newUser.save(err => {
+                if(err) {
+                res.json({success : false , msg :err.msg})
+                } else {
+                res.json({success : true , msg :"null"})
+                }
+            })
         }
     })
 }
@@ -35,7 +46,6 @@ exports.checkLogin = (req,res) => {
     if(!errors){
         User.findOne({email : req.body.email , password : req.body.password} , (err,result)=>{
             if(result){
-              console.log("result" , result)
               
                req.session.userdetails =  {
                 firstname : result.firstname,
@@ -43,7 +53,6 @@ exports.checkLogin = (req,res) => {
                 email : result.email,
                 iconpath : result.iconpath
                }
-               console.log("req.session.userdetails" , req.session.userdetails)
                res.redirect('/profile')
             } else {
                 req.flash('error' , "Invalid user")

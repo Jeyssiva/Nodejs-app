@@ -21,8 +21,7 @@
         <div class="container">
             <div class="span3 well">
                 <center>
-                    <% let iconpath = "../" + <%- userdetails.iconpath %> %>
-                    <img id="profile-img" class="profile-img-card" src = <%- iconpath %> />
+                <img id="profile-img" class="profile-img-card" src = "/uploads/<%-userdetails.iconpath %>">
                 <h3>Welcome <%- userdetails.firstname + ' ' + userdetails.lastname %></h3>
                 <a href ="/logout">logout</a>
                 </center>

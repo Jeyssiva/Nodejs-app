@@ -32,7 +32,8 @@ app.use(function(req,res ,next){
   res.locals.userdetails = req.session.userdetails
   next();
 })
-  
+
+app.use(express.static('./public'));
 app.use(flash());
 
 app.use('/' , indexRoute)
